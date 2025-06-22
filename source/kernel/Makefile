@@ -290,18 +290,6 @@ endif
 	$(AT)(cd $(KERNEL_SRC_DIR)/drivers && rm -rf msp && ln -s $(MSP_DIR)/drv msp)
 	$(AT)(cd $(KERNEL_SRC_DIR)/drivers && rm -rf wifi && ln -s $(COMPONENT_DIR)/wifi/drv wifi)
 	$(AT)(cd $(KERNEL_SRC_DIR)/drivers && rm -rf bluetooth_usb && ln -s $(COMPONENT_DIR)/bluetooth/drv bluetooth_usb)
-	$(AT)make -j16 -C $(KERNEL_SRC_DIR) ARCH=$(CFG_HI_CPU_ARCH) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
-		O=$(BUILD_DIR) \
-		$(EXTRA_FLAGS_KERNEL) \
-		CFLAGS_KERNEL=$(CFLAGS_KERNEL) AFLAGS_KERNEL=$(AFLAGS_KERNEL) $(KERNEL_CONFIG)
-	$(if $(CFG_HI_TEE_SUPPORT),make -j16 tee_config,)
-	make -j16 pcie_config
-	$(AT)make -j16 -C $(KERNEL_SRC_DIR) ARCH=$(CFG_HI_CPU_ARCH) \
-		CROSS_COMPILE=$(CROSS_COMPILE) \
-		O=$(BUILD_DIR) \
-		$(EXTRA_FLAGS_KERNEL) \
-		CFLAGS_KERNEL=$(CFLAGS_KERNEL) AFLAGS_KERNEL=$(AFLAGS_KERNEL) oldconfig
 
 ifdef CFG_HI_ADVCA_FUNCTION
 ifeq ($(CFG_HI_LOADER_APPLOADER),y)
